@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Loops Practice</title>
+</head>
+<body>
+
+  <h2>JavaScript Loops Practice</h2>
+
+  <!-- 1. Multiplication Table -->
+  <h3>Multiplication Table</h3>
+  <input type="number" id="num" placeholder="Enter number">
+  <button onclick="table()">Generate Table</button>
+  <pre id="res1"></pre>
+
+  <hr>
+
+  <!-- 2. Sum of 1 to 100 -->
+  <h3>Sum of 1 to 100</h3>
+  <button onclick="sum100()">Calculate</button>
+  <p id="res2"></p>
+
+  <hr>
+
+  <!-- 3. Even Numbers 1 to 20 -->
+  <h3>Even Numbers (1 to 20)</h3>
+  <button onclick="even()">Show Even Numbers</button>
+  <p id="res3"></p>
+
+  <hr>
+
+  <!-- 4. Odd Numbers 1 to 20 -->
+  <h3>Odd Numbers (1 to 20)</h3>
+  <button onclick="odd()">Show Odd Numbers</button>
+  <p id="res4"></p>
+
+  <hr>
+
+  <!-- 5. Factorial -->
+  <h3>Factorial</h3>
+  <input type="number" id="factNum" placeholder="Enter number">
+  <button onclick="factorial()">Find Factorial</button>
+  <p id="res5"></p>
+
+<script>
+
+// 1. Multiplication Table
+function table() {
+  let num = Number(document.getElementById("num").value);
+  let output = "";
+
+  for (let i = 1; i <= 10; i++) {
+    output += `${num} x ${i} = ${num * i}\n`;
+  }
+
+  document.getElementById("res1").innerText = output;
+}
+
+// 2. Sum of 1 to 100
+function sum100() {
+  let sum = 0;
+
+  for (let i = 1; i <= 100; i++) {
+    sum += i;
+  }
+
+  document.getElementById("res2").innerText = "Sum = " + sum;
+}
+
+// 3. Even numbers
+function even() {
+  let output = "";
+
+  for (let i = 1; i <= 20; i++) {
+    if (i % 2 === 0) {
+      output += i + " ";
+    }
+  }
+
+  document.getElementById("res3").innerText = output;
+}
+
+// 4. Odd numbers
+function odd() {
+  let output = "";
+
+  for (let i = 1; i <= 20; i++) {
+    if (i % 2 !== 0) {
+      output += i + " ";
+    }
+  }
+
+  document.getElementById("res4").innerText = output;
+}
+
+// 5. Factorial
+function factorial() {
+  let num = Number(document.getElementById("factNum").value);
+  let fact = 1;
+
+  for (let i = 1; i <= num; i++) {
+    fact *= i;
+  }
+
+  document.getElementById("res5").innerText = "Factorial = " + fact;
+}
+
+</script>
+
+</body>
+</html>

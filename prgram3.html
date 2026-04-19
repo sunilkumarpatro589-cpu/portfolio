@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Full JavaScript Functions Project</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 380px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 5px;
+    }
+
+    button {
+      padding: 10px;
+      margin: 5px;
+      width: 85%;
+      cursor: pointer;
+      background: black;
+      color: white;
+      border: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #eee;
+      margin: 5px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: green;
+    }
+
+    .btn-small {
+      width: auto;
+      padding: 5px 8px;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🚀 Full JavaScript Functions Project</h1>
+
+  <!-- FACTORIAL -->
+  <div class="box">
+    <h3>Factorial</h3>
+    <input type="number" id="factInput" placeholder="Enter number">
+    <button onclick="showFactorial()">Calculate</button>
+    <h4 id="factResult"></h4>
+  </div>
+
+  <!-- REVERSE STRING -->
+  <div class="box">
+    <h3>Reverse String</h3>
+    <input type="text" id="revInput" placeholder="Enter text">
+    <button onclick="showReverse()">Reverse</button>
+    <h4 id="revResult"></h4>
+  </div>
+
+  <!-- PALINDROME -->
+  <div class="box">
+    <h3>Palindrome Check</h3>
+    <input type="text" id="palInput" placeholder="Enter text">
+    <button onclick="checkPalindrome()">Check</button>
+    <h4 id="palResult"></h4>
+  </div>
+
+  <!-- TO-DO LIST -->
+  <div class="box">
+    <h3>To-Do List</h3>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+  </div>
+
+<script>
+
+  // ---------------- FACTORIAL ----------------
+  function factorial(n) {
+    let fact = 1;
+    for (let i = 1; i <= n; i++) {
+      fact *= i;
+    }
+    return fact;
+  }
+
+  function showFactorial() {
+    let num = Number(document.getElementById("factInput").value);
+    document.getElementById("factResult").innerText =
+      "Result: " + factorial(num);
+  }
+
+  // ---------------- REVERSE STRING ----------------
+  function reverseString(str) {
+    let rev = "";
+    for (let i = str.length - 1; i >= 0; i--) {
+      rev += str[i];
+    }
+    return rev;
+  }
+
+  function showReverse() {
+    let text = document.getElementById("revInput").value;
+    document.getElementById("revResult").innerText =
+      "Reversed: " + reverseString(text);
+  }
+
+  // ---------------- PALINDROME ----------------
+  function isPalindrome(str) {
+    return str === reverseString(str);
+  }
+
+  function checkPalindrome() {
+    let text = document.getElementById("palInput").value;
+
+    if (isPalindrome(text)) {
+      document.getElementById("palResult").innerText = "Palindrome ✔";
+    } else {
+      document.getElementById("palResult").innerText = "Not Palindrome ❌";
+    }
+  }
+
+  // ---------------- TO-DO LIST ----------------
+  let tasks = [];
+
+  function addTask() {
+    let task = document.getElementById("taskInput").value;
+
+    if (task === "") return;
+
+    tasks.push({ name: task, done: false });
+    document.getElementById("taskInput").value = "";
+
+    displayTasks();
+  }
+
+  function markDone(index) {
+    tasks[index].done = true;
+    displayTasks();
+  }
+
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    displayTasks();
+  }
+
+  function displayTasks() {
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    tasks.forEach((t, index) => {
+      list.innerHTML += `
+        <li>
+          <span class="${t.done ? 'done' : ''}">
+            ${t.name}
+          </span>
+
+          <div>
+            <button class="btn-small" onclick="markDone(${index})">✔</button>
+            <button class="btn-small" onclick="deleteTask(${index})">❌</button>
+          </div>
+        </li>
+      `;
+    });
+  }
+
+</script>
+
+</body>
+</html>

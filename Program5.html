@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ES6 Full App</title>
+
+<style>
+  body {
+    font-family: Arial;
+    margin: 0;
+    background: #f4f6f9;
+  }
+
+  header {
+    background: black;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .container {
+    width: 750px;
+    margin: 20px auto;
+  }
+
+  .box {
+    background: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 8px gray;
+  }
+
+  button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .add-btn { background: green; }
+  .delete-btn { background: red; }
+  .minus-btn { background: orange; }
+
+  /* COUNTER */
+  .counter {
+    font-size: 30px;
+    text-align: center;
+    margin: 10px;
+  }
+
+  /* IMAGE GALLERY */
+  .main-img {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .gallery img {
+    width: 120px;
+    height: 90px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+  }
+
+  /* TODO */
+  input, textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background: #eee;
+    margin: 5px;
+    padding: 10px;
+  }
+
+  /* CHAR COUNTER */
+  .count {
+    font-weight: bold;
+  }
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚀 ES6 Full Practice App</h1>
+</header>
+
+<div class="container">
+
+  <!-- 1. COUNTER APP -->
+  <div class="box">
+    <h3>Counter App</h3>
+
+    <div class="counter" id="count">0</div>
+
+    <button class="add-btn" onclick="increase()">+</button>
+    <button class="minus-btn" onclick="decrease()">-</button>
+  </div>
+
+  <!-- 2. IMAGE GALLERY -->
+  <div class="box">
+    <h3>Image Gallery</h3>
+
+    <img id="mainImage"
+      class="main-img"
+      src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d"
+    />
+
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" onclick="changeImage(this)">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" onclick="changeImage(this)">
+      <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" onclick="changeImage(this)">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c" onclick="changeImage(this)">
+    </div>
+  </div>
+
+  <!-- 3. TO-DO LIST -->
+  <div class="box">
+    <h3>To-Do List</h3>
+
+    <input type="text" id="todoInput" placeholder="Enter task">
+
+    <button class="add-btn" onclick="addTodo()">Add</button>
+    <button class="delete-btn" onclick="clearAll()">Clear All</button>
+
+    <ul id="todoList"></ul>
+  </div>
+
+  <!-- 4. CHARACTER COUNTER -->
+  <div class="box">
+    <h3>Live Character Counter (280 limit)</h3>
+
+    <textarea id="textArea" oninput="countChars()" maxlength="280"></textarea>
+
+    <p>
+      Characters: <span class="count" id="charCount">0</span> / 280
+    </p>
+  </div>
+
+</div>
+
+<script>
+
+  // ---------------- COUNTER ----------------
+  let count = 0;
+
+  function updateCounter() {
+    document.getElementById("count").innerText = count;
+  }
+
+  function increase() {
+    count++;
+    updateCounter();
+  }
+
+  function decrease() {
+    count--;
+    updateCounter();
+  }
+
+
+  // ---------------- IMAGE GALLERY ----------------
+  function changeImage(img) {
+    document.getElementById("mainImage").src = img.src;
+  }
+
+
+  // ---------------- TO-DO LIST ----------------
+  let todos = [];
+
+  function addTodo() {
+    let task = document.getElementById("todoInput").value.trim();
+
+    if (!task) return;
+
+    todos.push(task);
+    document.getElementById("todoInput").value = "";
+
+    renderTodos();
+  }
+
+  function clearAll() {
+    todos = [];
+    renderTodos();
+  }
+
+  function renderTodos() {
+    let list = document.getElementById("todoList");
+    list.innerHTML = "";
+
+    todos.forEach((t, i) => {
+      list.innerHTML += `
+        <li>${i + 1}. ${t}</li>
+      `;
+    });
+  }
+
+
+  // ---------------- CHARACTER COUNTER ----------------
+  function countChars() {
+    let text = document.getElementById("textArea").value;
+    document.getElementById("charCount").innerText = text.length;
+  }
+
+</script>
+
+</body>
+</html>

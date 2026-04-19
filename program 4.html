@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ES6 Web Application</title>
+
+<style>
+  body {
+    font-family: Arial;
+    margin: 0;
+    background: #f4f6f9;
+  }
+
+  header {
+    background: black;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .container {
+    width: 600px;
+    margin: 20px auto;
+  }
+
+  .box {
+    background: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 8px gray;
+  }
+
+  input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  button {
+    padding: 10px;
+    width: 92%;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background: #eee;
+    margin: 5px;
+    padding: 10px;
+  }
+
+  .delete {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    float: right;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚀 ES6 Web Application Project</h1>
+</header>
+
+<div class="container">
+
+  <!-- EVEN NUMBERS -->
+  <div class="box">
+    <h3>Even Numbers (filter)</h3>
+    <input type="text" id="numInput" placeholder="Enter numbers (comma separated)">
+    <button onclick="showEven()">Get Even Numbers</button>
+    <p id="evenResult"></p>
+  </div>
+
+  <!-- LAPTOP OBJECT -->
+  <div class="box">
+    <h3>Laptop Object</h3>
+    <button onclick="showLaptop()">Show Laptop Details</button>
+    <p id="laptopResult"></p>
+  </div>
+
+  <!-- MARKS -->
+  <div class="box">
+    <h3>Marks Analysis</h3>
+    <input type="text" id="marksInput" placeholder="Enter marks (comma separated)">
+    <button onclick="analyzeMarks()">Analyze</button>
+    <p id="marksResult"></p>
+  </div>
+
+  <!-- STUDENT APP -->
+  <div class="box">
+    <h3>Student Records App</h3>
+
+    <input type="text" id="name" placeholder="Name">
+    <input type="number" id="age" placeholder="Age">
+    <input type="text" id="course" placeholder="Course">
+
+    <button onclick="addStudent()">Add Student</button>
+
+    <ul id="studentList"></ul>
+  </div>
+
+</div>
+
+<script>
+
+  // ---------------- EVEN NUMBERS (filter) ----------------
+  function showEven() {
+    let arr = document.getElementById("numInput").value
+      .split(",")
+      .map(Number);
+
+    let even = arr.filter(num => num % 2 === 0);
+
+    document.getElementById("evenResult").innerText =
+      "Even Numbers: " + even.join(", ");
+  }
+
+  // ---------------- LAPTOP OBJECT ----------------
+  const laptop = {
+    brand: "Dell",
+    ram: "16GB",
+    price: 60000,
+
+    details() {
+      return `Brand: ${this.brand}, RAM: ${this.ram}, Price: ₹${this.price}`;
+    }
+  };
+
+  function showLaptop() {
+    document.getElementById("laptopResult").innerText = laptop.details();
+  }
+
+  // ---------------- MARKS ANALYSIS ----------------
+  function analyzeMarks() {
+    let marks = document.getElementById("marksInput").value
+      .split(",")
+      .map(Number);
+
+    let highest = Math.max(...marks);
+    let lowest = Math.min(...marks);
+    let sum = marks.reduce((a, b) => a + b, 0);
+    let avg = sum / marks.length;
+
+    document.getElementById("marksResult").innerText =
+      `Highest: ${highest}, Lowest: ${lowest}, Average: ${avg.toFixed(2)}`;
+  }
+
+  // ---------------- STUDENT APP ----------------
+  let students = [];
+
+  function addStudent() {
+    let name = document.getElementById("name").value;
+    let age = document.getElementById("age").value;
+    let course = document.getElementById("course").value;
+
+    if (!name || !age || !course) return;
+
+    students.push({ name, age, course });
+
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("course").value = "";
+
+    displayStudents();
+  }
+
+  function deleteStudent(index) {
+    students.splice(index, 1);
+    displayStudents();
+  }
+
+  function displayStudents() {
+    let list = document.getElementById("studentList");
+    list.innerHTML = "";
+
+    students.forEach((s, index) => {
+      list.innerHTML += `
+        <li>
+          ${index + 1}. ${s.name} | Age: ${s.age} | ${s.course}
+          <button class="delete" onclick="deleteStudent(${index})">X</button>
+        </li>
+      `;
+    });
+  }
+
+</script>
+
+</body>
+</html>

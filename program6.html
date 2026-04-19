@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Async JS Mini Project</title>
+
+<style>
+  body {
+    font-family: Arial;
+    margin: 0;
+    background: #f4f6f9;
+  }
+
+  header {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .container {
+    width: 800px;
+    margin: 20px auto;
+  }
+
+  .box {
+    background: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 8px gray;
+  }
+
+  button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .btn { background: #007bff; }
+  .download-btn { background: green; }
+  .weather-btn { background: orange; }
+
+  .item {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+
+  th {
+    background: #f0f0f0;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚀 Async JS Mini Project</h1>
+</header>
+
+<div class="container">
+
+  <!-- POSTS -->
+  <div class="box">
+    <h3>Fetch Posts</h3>
+    <button class="btn" onclick="fetchPosts()">Load Posts</button>
+    <div id="posts"></div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <div class="box">
+    <h3>File Download Simulation</h3>
+    <button class="download-btn" onclick="downloadFiles()">Start Download</button>
+    <div id="download"></div>
+  </div>
+
+  <!-- FAKE API TABLE -->
+  <div class="box">
+    <h3>Fake API Users</h3>
+    <button class="btn" onclick="loadUsers()">Load Users</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody id="users"></tbody>
+    </table>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="box">
+    <h3>Weather App</h3>
+    <button class="weather-btn" onclick="showWeather()">Get Weather</button>
+    <div id="weather"></div>
+  </div>
+
+</div>
+
+<script>
+
+  // ---------------- 1. FETCH POSTS ----------------
+  async function fetchPosts() {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await res.json();
+
+    const firstFive = data.slice(0, 5);
+
+    const container = document.getElementById("posts");
+    container.innerHTML = "";
+
+    firstFive.forEach(post => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.textContent = post.title;
+      container.appendChild(div);
+    });
+  }
+
+
+  // ---------------- 2. DOWNLOAD SIMULATION ----------------
+  function simulateDownload(file) {
+    return new Promise(resolve => {
+      const time = Math.floor(Math.random() * 5000) + 1000;
+
+      setTimeout(() => {
+        resolve(`${file} downloaded in ${time}ms`);
+      }, time);
+    });
+  }
+
+  async function downloadFiles() {
+    const box = document.getElementById("download");
+    box.innerHTML = "Downloading...<br>";
+
+    const f1 = await simulateDownload("file1.jpg");
+    box.innerHTML += f1 + "<br>";
+
+    const f2 = await simulateDownload("file2.jpg");
+    box.innerHTML += f2 + "<br>";
+
+    const f3 = await simulateDownload("file3.jpg");
+    box.innerHTML += f3 + "<br>";
+
+    box.innerHTML += "<b>All downloads completed!</b>";
+  }
+
+
+  // ---------------- 3. FAKE API (TABLE) ----------------
+  async function loadUsers() {
+    const users = [
+      { name: "Sunil", role: "Developer" },
+      { name: "kumar", role: "Designer" },
+      { name: "Patro", role: "Tester" }
+    ];
+
+    await new Promise(res => setTimeout(res, 1000));
+
+    const tableBody = document.getElementById("users");
+    tableBody.innerHTML = "";
+
+    users.forEach(user => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${user.name}</td>
+        <td>${user.role}</td>
+      `;
+
+      tableBody.appendChild(row);
+    });
+  }
+
+
+  // ---------------- 4. WEATHER SIMULATION ----------------
+  function getWeather(city) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          city,
+          temp: Math.floor(Math.random() * 35) + 10,
+          condition: ["Sunny", "Cloudy", "Rainy"][Math.floor(Math.random() * 3)]
+        });
+      }, 2000);
+    });
+  }
+
+  async function showWeather() {
+    const data = await getWeather("Bangalore");
+
+    const box = document.getElementById("weather");
+    box.innerHTML = `
+      <p><b>City:</b> ${data.city}</p>
+      <p><b>Temperature:</b> ${data.temp}°C</p>
+      <p><b>Condition:</b> ${data.condition}</p>
+    `;
+  }
+
+</script>
+
+</body>
+</html>

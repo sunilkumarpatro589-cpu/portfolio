@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Practice Tasks</title>
+</head>
+<body>
+
+  <h2>JavaScript Practice Program</h2>
+
+  <!-- 1. Positive / Negative / Zero -->
+  <h3>Check Number (Positive / Negative / Zero)</h3>
+  <input type="number" id="num1" placeholder="Enter number">
+  <button onclick="checkNumber()">Check</button>
+  <p id="res1"></p>
+
+  <hr>
+
+  <!-- 2. Max of 3 numbers -->
+  <h3>Find Maximum of 3 Numbers</h3>
+  <input type="number" id="a" placeholder="A">
+  <input type="number" id="b" placeholder="B">
+  <input type="number" id="c" placeholder="C">
+  <button onclick="findMax()">Find Max</button>
+  <p id="res2"></p>
+
+  <hr>
+
+  <!-- 3. Multiplication Table -->
+  <h3>Multiplication Table (1–10)</h3>
+  <input type="number" id="num3" placeholder="Enter number">
+  <button onclick="table()">Generate</button>
+  <pre id="res3"></pre>
+
+  <hr>
+
+  <!-- 4. Even or Odd -->
+  <h3>Even or Odd Checker</h3>
+  <input type="number" id="num4" placeholder="Enter number">
+  <button onclick="evenOdd()">Check</button>
+  <p id="res4"></p>
+
+
+<script>
+
+// 1. Positive / Negative / Zero
+function checkNumber() {
+  let num = Number(document.getElementById("num1").value);
+
+  if (num > 0) {
+    document.getElementById("res1").innerText = "Positive Number";
+  } else if (num < 0) {
+    document.getElementById("res1").innerText = "Negative Number";
+  } else {
+    document.getElementById("res1").innerText = "Zero";
+  }
+}
+
+// 2. Max of 3 numbers
+function findMax() {
+  let a = Number(document.getElementById("a").value);
+  let b = Number(document.getElementById("b").value);
+  let c = Number(document.getElementById("c").value);
+
+  let max;
+
+  if (a >= b && a >= c) {
+    max = a;
+  } else if (b >= a && b >= c) {
+    max = b;
+  } else {
+    max = c;
+  }
+
+  document.getElementById("res2").innerText = "Largest Number: " + max;
+}
+
+// 3. Multiplication Table
+function table() {
+  let num = Number(document.getElementById("num3").value);
+  let output = "";
+
+  for (let i = 1; i <= 10; i++) {
+    output += `${num} x ${i} = ${num * i}\n`;
+  }
+
+  document.getElementById("res3").innerText = output;
+}
+
+// 4. Even or Odd
+function evenOdd() {
+  let num = Number(document.getElementById("num4").value);
+
+  if (num % 2 === 0) {
+    document.getElementById("res4").innerText = "Even Number";
+  } else {
+    document.getElementById("res4").innerText = "Odd Number";
+  }
+}
+
+</script>
+
+</body>
+</html>
