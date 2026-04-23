@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .container {
+      width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .task {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .task button {
+      width: auto;
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Task Manager</h2>
+
+  <input id="title" placeholder="Enter task">
+  
+  <select id="category">
+    <option>Work</option>
+    <option>Personal</option>
+    <option>Urgent</option>
+  </select>
+
+  <button onclick="addTask()">Add Task</button>
+
+  <hr>
+
+  <div id="tasks"></div>
+</div>
+
+<script>
+const API = "http://localhost:3000/tasks";
+
+// 🔹 Replace with real userId from backend
+const userId = "";
+
+// ADD TASK
+async function addTask() {
+  const title = document.getElementById("title").value;
+  const category = document.getElementById("category").value;
+
+  await fetch(API, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ title, category, userId })
+  });
+
+  document.getElementById("title").value = "";
+  loadTasks();
+}
+
+// LOAD TASKS (SORTED)
+async function loadTasks() {
+  const res = await fetch(API);
+  const tasks = await res.json();
+
+  const container = document.getElementById("tasks");
+  container.innerHTML = "";
+
+  // Sort newest first (extra safety)
+  tasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  tasks.forEach(task => {
+    const div = document.createElement("div");
+    div.className = "task";
+
+    div.innerHTML = `
+      <b>${task.title}</b> (${task.category})<br>
+      <small>${new Date(task.createdAt).toLocaleString()}</small><br>
+
+      <button onclick="editTask('${task._id}')">Edit</button>
+      <button onclick="deleteTask('${task._id}')">Delete</button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+// EDIT TASK
+async function editTask(id) {
+  const newTitle = prompt("Enter new task title");
+
+  if (!newTitle) return;
+
+  await fetch(`${API}/${id}`, {
+    method: "PUT",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ title: newTitle })
+  });
+
+  loadTasks();
+}
+
+// DELETE TASK
+async function deleteTask(id) {
+  await fetch(`${API}/${id}`, {
+    method: "DELETE"
+  });
+
+  loadTasks();
+}
+
+// INITIAL LOAD
+loadTasks();
+</script>
+
+</body>
+</html>
